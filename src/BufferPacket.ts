@@ -8,6 +8,7 @@ import {
 	EPacketReliability,
 	BufferTypeFor,
 	IDiscriminatedBufferPacket,
+	EBufferType,
 } from "./BufferTypes";
 import { HexHelper } from "./HexHelper";
 
@@ -196,6 +197,10 @@ export class DiscriminatedBufferPacketDefinition<
 	public AddVariant<K extends keyof TVAR>(Type: K, Schema: TypedBufferMap<TVAR[K]>): this {
 		this.VariantSchemas.set(Type as unknown as TDValue, Schema);
 		return this;
+	}
+
+	public AddSimpleVariant<K extends keyof TVAR>(Type: K, ValueType: EBufferType | BufferTypeFor<EBufferType>): this {
+		return this.AddVariant(Type, { Value: ValueType } as TypedBufferMap<TVAR[K]>);
 	}
 
 	protected GetVariantSchema(Discriminator: TDValue): TypedBufferMap<defined> {
