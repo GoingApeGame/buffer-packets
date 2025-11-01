@@ -53,6 +53,8 @@ export const enum EBufferType {
 	Vector3Int16,
 	/** RGB color (3 x 1 byte = 3 bytes). Each component: UInt8, range 0-255 */
 	Color3,
+	/** Buffer (variable length). */
+	Buffer,
 }
 
 export const enum EPacketReliability {
@@ -86,6 +88,7 @@ interface IBufferTypeMap {
 	[EBufferType.Vector3]: Vector3;
 	[EBufferType.Vector3Int16]: Vector3int16;
 	[EBufferType.Color3]: Color3;
+	[EBufferType.Buffer]: buffer;
 }
 
 type BufferTypeFor<T> =

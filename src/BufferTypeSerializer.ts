@@ -288,6 +288,16 @@ export abstract class BufferTypeSerializer {
 
 				return 3 + Obfuscated.size();
 			}
+			case EBufferType.Buffer: {
+				if (!t.buffer(Value)) {
+					throw `Expected buffer for EBufferType.Buffer, got ${typeOf(Value)}`;
+				}
+
+				buffer.writeu32(Buffer, Offset, buffer.len(Value));
+				buffer.copy(Buffer, Offset + 4, Value, 0, buffer.len(Value));
+
+				return 4 + buffer.len(Value);
+			}
 		}
 
 		throw `Unknown buffer type: ${Type}`;
@@ -432,6 +442,12 @@ export abstract class BufferTypeSerializer {
 				const Plain = Obfuscator.XorString(Obfuscated, this.SurelyNoCheatersWillSeeThis);
 
 				return [Plain as IBufferTypeMap[T], 3 + Size];
+			}
+			case EBufferType.Buffer: {
+				const Length = buffer.readu32(Buffer, Offset);
+				const NewBuffer = buffer.create(Length);
+				buffer.copy(NewBuffer, 0, Buffer, Offset + 4, Length);
+				return [NewBuffer as IBufferTypeMap[T], 4 + Length];
 			}
 		}
 
