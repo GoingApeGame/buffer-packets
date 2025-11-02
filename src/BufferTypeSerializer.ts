@@ -163,13 +163,13 @@ export abstract class BufferTypeSerializer {
 				buffer.writeu8(Buffer, Offset + 2, math.floor(Value.B * 255));
 				return 3;
 			}
-			case EBufferType.ObjectId: {
+			case EBufferType.MongoId: {
 				if (!t.string(Value)) {
-					throw `Expected string for EBufferType.ObjectId, got ${typeOf(Value)}`;
+					throw `Expected string for EBufferType.MongoId, got ${typeOf(Value)}`;
 				}
 
 				if (Value.size() !== 24) {
-					throw `Expected 24 character hex string for EBufferType.ObjectId, got ${Value}`;
+					throw `Expected 24 character hex string for EBufferType.MongoId, got ${Value}`;
 				}
 
 				const Bytes = HexHelper.HexToBinary(Value);
@@ -383,7 +383,7 @@ export abstract class BufferTypeSerializer {
 
 				return [Color3.fromRGB(R, G, B) as IBufferTypeMap[T], 3];
 			}
-			case EBufferType.ObjectId: {
+			case EBufferType.MongoId: {
 				const StringValue = buffer.readstring(Buffer, Offset, 12);
 
 				return [HexHelper.BinaryToHex(StringValue) as IBufferTypeMap[T], 12];

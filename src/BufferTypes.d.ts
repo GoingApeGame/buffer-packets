@@ -41,8 +41,8 @@ export const enum EBufferType {
 	ZLibCompressedString,
 	/** JSON object (3 bytes for length + variable length). Max size: 16,777,215 bytes (16MB). Converts the object into a JSON string, then obfuscates and compresses it. */
 	JSONObject,
-	/** Object ID (12 bytes, expects 24 character hex string). Max size: 12 bytes */
-	ObjectId,
+	/** MongoId (12 bytes, expects 24 character hex string). Max size: 12 bytes */
+	MongoId,
 	/** 2D vector (2 x 4 bytes = 8 bytes). Each component: Float32, max ~3.4e38 */
 	Vector2,
 	/** 2D vector with 16-bit integers (2 x 2 bytes = 4 bytes). Each component: Int16, range -32,768 to 32,767 */
@@ -82,7 +82,7 @@ interface IBufferTypeMap {
 	[EBufferType.DynamicString8]: string;
 	[EBufferType.LongString]: string;
 	[EBufferType.ZLibCompressedString]: string;
-	[EBufferType.ObjectId]: string;
+	[EBufferType.MongoId]: string;
 	[EBufferType.Vector2]: Vector2;
 	[EBufferType.Vector2Int16]: Vector2int16;
 	[EBufferType.Vector3]: Vector3;
